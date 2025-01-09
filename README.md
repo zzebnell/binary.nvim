@@ -4,6 +4,8 @@ A over-minimal Neovim color scheme using **only two colors** for a plain text ed
 
 ![binary](https://github.com/user-attachments/assets/ae43318c-28a1-4a16-80ae-3c7e1893f5d1)
 
+Check [here](https://github.com/jackplus-xyz/binary.nvim/discussions/2) for inspirations!
+
 > [!WARNING]
 > This is an extreme color scheme that:
 >
