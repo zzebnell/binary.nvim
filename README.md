@@ -1,93 +1,147 @@
-# nvim-lua-plugin-template
+# binary.nvim
 
-This repository is a template for Neovim plugins written in Lua.
+A over-minimal Neovim color scheme using **only two colors** for a plain text editor experience.
 
-The intention is that you use this template to create a new repository where you then adapt this readme and add your plugin code.
-The template includes the following:
+![binary](https://github.com/user-attachments/assets/ae43318c-28a1-4a16-80ae-3c7e1893f5d1)
 
-- GitHub workflows and configurations to run linters and tests
-- Packaging of tagged releases and upload to [LuaRocks][luarocks]
-  if a [`LUAROCKS_API_KEY`][luarocks-api-key] is added
-  to the [GitHub Actions secrets][gh-actions-secrets]
-- Minimal test setup:
-  - A `scm` [rockspec][rockspec-format], `nvim-lua-plugin-scm-1.rockspec`
-  - A `.busted` file
-- EditorConfig
-- A .luacheckrc
+> [!WARNING]
+> This is an extreme color scheme that:
+>
+> - Eliminates ALL colors
+> - Removes ALL font styles
 
+> [!TIP]
+> If you are not sure if you have the strength, consider:
+>
+> - Neovim's built-in `quiet` color scheme
+> - Checking [vim-no-color-collections](https://github.com/mcchrish/vim-no-color-collections) for alternatives
 
-To get started writing a Lua plugin, I recommend reading `:help lua-guide` and
-`:help write-plugin`.
+## Features
 
-## Scope
+- Uses only foreground and background colors
+  - No syntax highlighting
+  - No special highlighting for diagnostics, search results, or UI elements
 
-Anything that the majority of plugin authors will want to have is in scope of
-this starter template. Anything that is controversial is out-of-scope.
+## Installation
+
+Using [lazy.nvim](https://github.com/folke/lazy.nvim):
+
+```lua
+{
+    "jackplus-xyz/binary.nvim",
+    opts = {
+        -- Add your configuration here
+    }
+}
+```
+
+## Configuration
+
+`binary.nvim` comes with the following default configuration:
+
+```lua
+{
+  style = "system", -- Theme style: "system" | "light" | "dark"
+  colors = {        -- Colors used for the "light" theme; reversed automatically for "dark"
+    fg = "#000000", -- Foreground color
+    bg = "#ffffff", -- Background color
+  },
+  reversed_group = {}, -- Highlight groups with reversed `fg` and `bg` (e.g., `CursorLine`, `Visual`)
+}
+```
+
+The default reversed_group includes commonly used highlight groups, with `fg` and `bg` reversed for better visibility:
+
+```lua
+-- default reversed_group
+{
+  -- Editor UI
+  Cursor = true,
+  CursorLine = true,
+  IncSearch = true,
+  MatchParen = true,
+  PmenuSel = true,
+  QuickFixLine = true,
+  Search = true,
+  Substitute = true,
+  TabLineSel = true,
+  TermCursor = true,
+  TermCursorNC = true,
+  Visual = true,
+  VisualNOS = true,
+  WildMenu = true,
+
+  -- LSP
+  LspReferenceText = true,
+  LspReferenceRead = true,
+  LspReferenceWrite = true,
+  LspSignatureActiveParameter = true,
+
+  -- Telescope
+  TelescopePromptTitle = true,
+  TelescopePreviewTitle = true,
+  TelescopeResultsTitle = true,
+  TelescopeSelection = true,
+  TelescopeSelectionCaret = true,
+}
+```
+
+**Example configuration with `lazy.nvim`:**
+
+```lua
+require("lazy").setup({
+  {
+    "jackplus-xyz/binary.nvim",
+    opts = {
+      style = "light",
+      colors = {
+        fg = "#FFB400",
+      },
+      -- Customize the reversed groups
+      reversed_group = {
+        Title = true,  -- Add a new reversed group
+        Search = false, -- Disable a default reversed group
+      },
+    },
+  },
+})
+```
 
 ## Usage
 
-- Click [Use this template][use-this-template]. Do not fork.
-- Rename `nvim-lua-plugin-scm-1.rockspec` and change the `package` name
-  to the name of your plugin.
+Once installed, simply set the color scheme in your Neovim configuration:
 
-## Template License
-
-The template itself is licensed under the [MIT license](https://en.wikipedia.org/wiki/MIT_License).
-The template doesn't include a LICENSE file. You should add one after creating your repository.
-
----
-
-
-The remainder of the README is text that can be preserved in your plugin:
-
----
-
-
-## Development
-
-### Run tests
-
-
-Running tests requires either
-
-- [luarocks][luarocks]
-- or [busted][busted] and [nlua][nlua]
-
-to be installed[^1].
-
-[^1]: The test suite assumes that `nlua` has been installed
-      using luarocks into `~/.luarocks/bin/`.
-
-You can then run:
-
-```bash
-luarocks test --local
-# or
-busted
+```
+vim.cmd("colorscheme binary")
 ```
 
-Or if you want to run a single test file:
+You can dynamically change the style and colors by updating the configuration:
 
-```bash
-luarocks test spec/path_to_file.lua --local
-# or
-busted spec/path_to_file.lua
+```lua
+require("binary").setup({
+  style = "dark",
+  colors = {
+    fg = "#ffffff",
+    bg = "#000000",
+  },
+})
 ```
 
-If you see an error like `module 'busted.runner' not found`:
+## How it works
 
-```bash
-eval $(luarocks path --no-bin)
-```
+`binary.nvim` brute force a two-color scheme by:
 
-For this to work you need to have Lua 5.1 set as your default version for
-luarocks. If that's not the case you can pass `--lua-version 5.1` to all the
-luarocks commands above.
+1. Overrides all highlight groups to use only the configured `fg` and `bg`.
+2. Allows selected groups to reverse their colors for improved readability.
+3. Adapts to different styles (light or dark) by swapping fg and bg.
 
-[rockspec-format]: https://github.com/luarocks/luarocks/wiki/Rockspec-format
-[luarocks]: https://luarocks.org
-[luarocks-api-key]: https://luarocks.org/settings/api-keys
-[gh-actions-secrets]: https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository
-[busted]: https://lunarmodules.github.io/busted/
-[nlua]: https://github.com/mfussenegger/nlua
-[use-this-template]: https://github.com/new?template_name=nvim-lua-plugin-template&template_owner=nvim-lua
+## Credits
+
+- [zenbones-theme/zenbones.nvim](https://github.com/zenbones-theme/zenbones.nvim): A collection of calming color schemes, including my favorite daily driver: `zenwritten`.
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim?tab=readme-ov-file): A clean and super well maintained color scheme, where I learn how to setup the project.
+- [vim-no-color-collections](https://github.com/mcchrish/vim-no-color-collections): A collection of color schemes with minimal colors.
+- [Swordfish90/cool-retro-term](https://github.com/Swordfish90/cool-retro-term): A retro terminal emulator which was the inspiration of this plugin.
+
+## License
+
+MIT
