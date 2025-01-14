@@ -14,30 +14,46 @@ function M.setup(opts)
     colors = {
       fg = colors.bg,
       bg = colors.fg,
-      force = true,
     }
   end
-  local reversed_colors = { fg = colors.bg, bg = colors.fg, force = true }
 
-  local all_groups = vim.api.nvim_get_hl(0, {})
-  for group, _ in pairs(all_groups) do
-    if group and type(group) == "string" then
-      vim.api.nvim_set_hl(0, group, colors)
+  local hls = vim.api.nvim_get_hl(0, {})
+  vim.api.nvim_set_hl(0, "Binary", {
+    fg = colors.fg,
+    bg = colors.bg,
+    force = true,
+  })
+  for hl, _ in pairs(hls) do
+    if hl == "Normal" then
+      -- Set `Normal` separately so the bg color is preserved
+      vim.api.nvim_set_hl(0, "Normal", {
+        fg = colors.fg,
+        bg = colors.bg,
+      })
+    elseif hl ~= "Binary" then
+      vim.api.nvim_set_hl(0, hl, { link = "Binary" })
     end
   end
 
-  local reversed_group = require("binary.groups.reversed")
-  for group, value in pairs(opts.reversed_group or {}) do
-    reversed_group[group] = value
-  end
+  local reversed_hls = vim.tbl_deep_extend(
+    "force",
+    opts.use_default_reversed_group and require("binary.groups.reversed") or {},
+    opts.reversed_group or {}
+  )
 
-  for group, value in pairs(reversed_group) do
-    if value and group and type(group) == "string" then
-      vim.api.nvim_set_hl(0, group, reversed_colors)
+  vim.api.nvim_set_hl(0, "BinaryReversed", {
+    fg = colors.bg,
+    bg = colors.fg,
+  })
+
+  for hl, value in pairs(reversed_hls) do
+    if value and hl ~= "BinaryReversed" then
+      vim.api.nvim_set_hl(0, hl, { link = "BinaryReversed", force = true })
     end
   end
 
-  return colors, all_groups, opts
+  -- TODO: add terminal colors
+  return colors, hls, opts
 end
 
 return M
