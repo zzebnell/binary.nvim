@@ -1,7 +1,7 @@
 local M = {
   -- Editor UI
   Cursor = true,
-  CursorLine = true,
+  -- CursorLine = true,
   IncSearch = true,
   MatchParen = true,
   PmenuSel = true,
