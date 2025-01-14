@@ -1,5 +1,5 @@
 -- Configuration pattern reference from https://github.com/folke/tokyonight.nvim?tab=readme-ov-file (Apache 2.0 License)
-local config = require("binary.config")
+local Config = require("binary.config")
 
 local M = {}
 
@@ -11,10 +11,12 @@ function M.load(opts)
   if opts.style == "system" then
     opts = require("binary.config").extend({ style = system_bg })
   else
-    if style_bg ~= "dark" then
+    if style_bg ~= "dark" then -- Ensure style_bg is legal, defaults to "light"
       style_bg = "light"
     end
   end
+
+  -- TODO: add plugins support
 
   if system_bg ~= style_bg then
     vim.g.background = style_bg
@@ -23,6 +25,6 @@ function M.load(opts)
   return require("binary.theme").setup(opts)
 end
 
-M.setup = config.setup
+M.setup = Config.setup
 
 return M

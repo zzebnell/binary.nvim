@@ -35,8 +35,11 @@ function M.setup(opts)
     end
   end
 
-  local reversed_hls = require("binary.groups.reversed")
-  vim.tbl_deep_extend("force", reversed_hls, opts.reversed_group or {})
+  local reversed_hls = vim.tbl_deep_extend(
+    "force",
+    opts.use_default_reversed_group and require("binary.groups.reversed") or {},
+    opts.reversed_group or {}
+  )
 
   vim.api.nvim_set_hl(0, "BinaryReversed", {
     fg = colors.bg,
@@ -49,6 +52,7 @@ function M.setup(opts)
     end
   end
 
+  -- TODO: add terminal colors
   return colors, hls, opts
 end
 

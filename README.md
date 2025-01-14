@@ -48,6 +48,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
     fg = "#000000", -- Foreground color
     bg = "#ffffff", -- Background color
   },
+  use_default_reversed_group = true, -- Use the default `reversed_group` for a better startup experience
   reversed_group = {}, -- Highlight groups with reversed `fg` and `bg` (e.g., `CursorLine`, `Visual`)
 }
 ```

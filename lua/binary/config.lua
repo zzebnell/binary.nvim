@@ -7,6 +7,7 @@ M.defaults = {
     bg = "#ffffff",
     force = true,
   },
+  use_default_reversed_group = true,
   reversed_group = {},
 }
 
