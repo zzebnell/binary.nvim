@@ -49,7 +49,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
     bg = "#ffffff", -- Background color
   },
   use_default_reversed_group = true, -- Use the default `reversed_group` for a better startup experience
-  reversed_group = {}, -- Highlight groups with reversed `fg` and `bg` (e.g., `CursorLine`, `Visual`)
+  reversed_group = {}, -- Highlight groups with reversed `fg` and `bg` (e.g., `Search`, `Visual`)
 }
 ```
 
@@ -60,7 +60,6 @@ The default reversed_group includes commonly used highlight groups, with `fg` an
 {
   -- Editor UI
   Cursor = true,
-  CursorLine = true,
   IncSearch = true,
   MatchParen = true,
   PmenuSel = true,
