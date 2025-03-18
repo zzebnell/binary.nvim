@@ -21,7 +21,7 @@ function M.setup(opts)
   vim.api.nvim_set_hl(0, "Binary", {
     fg = colors.fg,
     bg = colors.bg,
-    force = true,
+    --force = true,
   })
   for hl, _ in pairs(hls) do
     if hl == "Normal" then
