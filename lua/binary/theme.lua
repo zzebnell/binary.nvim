@@ -48,7 +48,7 @@ function M.setup(opts)
 
   for hl, value in pairs(reversed_hls) do
     if value and hl ~= "BinaryReversed" then
-      vim.api.nvim_set_hl(0, hl, { link = "BinaryReversed", force = true })
+      vim.api.nvim_set_hl(0, hl, { link = "BinaryReversed" })
     end
   end
 
