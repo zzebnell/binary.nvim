@@ -30,7 +30,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-    "jackplus-xyz/binary.nvim",
+    "zzebnell/binary.nvim",
     opts = {
         -- Add your configuration here
     }
@@ -93,7 +93,7 @@ The default reversed_group includes commonly used highlight groups, with `fg` an
 ```lua
 require("lazy").setup({
   {
-    "jackplus-xyz/binary.nvim",
+    "zzebnell/binary.nvim",
     opts = {
       style = "light",
       colors = {
